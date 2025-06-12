@@ -99,7 +99,7 @@ std::string CompilerOptionToString(const GpuInfo& gpu_info,
       if (gpu_info.IsAdreno()) {
         if (!(gpu_info.adreno_info.IsAdreno3xx() ||
               gpu_info.adreno_info.IsAdreno4xx())) {
-          return "-qcom-accelerate-16-bit=false";
+          return "";
         } else {
           return "";
         }
