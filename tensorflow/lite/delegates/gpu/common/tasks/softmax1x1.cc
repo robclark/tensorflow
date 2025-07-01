@@ -124,6 +124,9 @@ std::string Softmax1x1::GetSoftmaxKernelCode(const OperationDef& op_def) {
   args_.AddFloat("mask_w");
 
   std::string c;
+  c += "__attribute__((reqd_work_group_size(" + std::to_string(work_group_size_.x) +
+                                         ", " + std::to_string(work_group_size_.y) +
+                                         ", " + std::to_string(work_group_size_.z) + ")))\n";
   c += "MAIN_FUNCTION($0) {\n";
   if (op_def.dst_tensors[0].HasAxis(Axis::BATCH)) {
     c += "  int linear_id = GROUP_ID_1;\n";
