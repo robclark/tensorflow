@@ -124,6 +124,9 @@ std::string FullyConnected::GetFullyConnectedKernelCode(
   c += "#define WG_X " + std::to_string(work_group_size_.x) + "\n";
   c += "#define WG_Y " + std::to_string(work_group_size_.y) + "\n";
 
+  c += "__attribute__((reqd_work_group_size(" + std::to_string(work_group_size_.x) +
+                                         ", " + std::to_string(work_group_size_.y) +
+                                         ", " + std::to_string(work_group_size_.z) + ")))\n";
   c += R"(MAIN_FUNCTION($0) {
   int gid = GLOBAL_ID_0;
   int2 tid = INIT_INT2v2(LOCAL_ID_0, LOCAL_ID_1);
