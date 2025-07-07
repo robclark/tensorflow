@@ -252,6 +252,9 @@ std::string Reduce::GetReduceKernelCode(const OperationDef& op_def,
   const std::string wg_z = std::to_string(work_group_size.z);
   const int wg_total_size =
       work_group_size.x * work_group_size.y * work_group_size.z;
+  c += "__attribute__((reqd_work_group_size(" + std::to_string(work_group_size_.x) +
+                                         ", " + std::to_string(work_group_size_.y) +
+                                         ", " + std::to_string(work_group_size_.z) + ")))\n";
   c += "MAIN_FUNCTION($0) {\n";
   if (use_wg_reduction_) {
     c += "  __local " + accum_type_decl + " accum[" +
@@ -537,7 +540,7 @@ void Reduce::GetPossibleKernelWorkGroups(TuningType tuning_type,
                                          const GpuInfo& gpu_info,
                                          const KernelInfo& kernel_info,
                                          std::vector<int3>* work_groups) const {
-  if (use_wg_reduction_) {
+  if (use_wg_reduction_ || 1) {
     work_groups->push_back(work_group_size_);
   } else {
     GetPossibleWorkGroups(tuning_type, gpu_info, kernel_info, grid_size_,
