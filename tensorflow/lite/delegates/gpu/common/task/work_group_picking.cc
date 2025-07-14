@@ -304,6 +304,7 @@ void GetPossibleWorkGroupsConv(TuningType tuning_type, const GpuInfo& gpu_info,
         max_z_size = gpu_info.adreno_info.IsAdreno3xx() ? 16 : 64;
       }
       max_z_size = std::min(max_z_size, gpu_info.GetMaxWorkGroupSizeForZ());
+      max_z_size = std::min(max_z_size, kernel_info.max_work_group_size);
       work_groups->push_back(
           GetWorkGroupConv(grid, kernel_info.max_work_group_size, max_z_size));
       return;
